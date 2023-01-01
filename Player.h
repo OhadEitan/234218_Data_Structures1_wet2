@@ -7,7 +7,8 @@
 
 #include "AVLTree.h"
 #include "LinkedList.h"
-#include "UF_Node.h"
+#include "Union_Find.h"
+
 
 class addition{
 public:
@@ -18,6 +19,7 @@ public:
     ~addition() = default;
 };
 
+class UF_Node;
 class Team;
 
 class Player {
@@ -29,6 +31,7 @@ public:
     int p_cards;
     int p_partial_spirit_on_add;
     bool is_goalkeeper;
+    UF_Node player_UF_node;
     addition p_addition;
 
 //

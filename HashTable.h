@@ -128,8 +128,8 @@ HashTable(long long int size)
 }
 
     long long int hashFunction(long long int value) const;
-    T find(long long int value) const;
-    HashStatus insert(long long int key, T value);
+    T* find(long long int value) const;
+    HashStatus insert(long long int key, T* value);
     HashStatus remove(long long int value);
 
     void clear();
@@ -147,7 +147,7 @@ long long int HashTable<T>::hashFunction(long long int value) const {
 
 
 template<class T>
-T HashTable<T>::find(long long int value) const {
+T* HashTable<T>::find(long long int value) const {
 
     int place = hashFunction(value);
     hash_node<T>* temp = table[place];
@@ -164,7 +164,7 @@ T HashTable<T>::find(long long int value) const {
 
 
 template<class T>
-HashStatus HashTable<T>::insert(long long int key, T value) {
+HashStatus HashTable<T>::insert(long long int key, T* value) {
 
     int place = hashFunction(key);
     hash_node<T> *temp = table[place];
