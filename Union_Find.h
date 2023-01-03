@@ -1,19 +1,10 @@
-//
-// Created by eitan on 20/12/2022.
-//
-
 #ifndef WET2_UNION_FIND_H
 #define WET2_UNION_FIND_H
 #include "HashTable.h"
 #include "Player.h"
-#include "Team.h"
 
 
-
-/////spirit_addition should be mult
-//////game_addition should be add
-
-
+class Team;
 
 class UF_Node
 {
@@ -21,11 +12,12 @@ public:
     Player* data;
     UF_Node* father;
     long long int size;
-    long long int spirit_addition;
+    permutation_t spirit_addition;
     long long int game_addition;
     Team* team;
 
     UF_Node(Player* p1);
+    UF_Node()= default;
     ~UF_Node()= default;
 
 
@@ -43,6 +35,9 @@ public:
     UF_Node* makeSet(long long int id, Player* p1);
     UF_Node* union_function(Player* p1, Player* p2);
 
+    permutation_t find_spirit(long long int id);
+
+    long long int find_gp(long long int id);
 };
 
 

@@ -1,25 +1,15 @@
-//
-// Created by eitan on 23/11/2022.
-//
-
 #ifndef WET1_TEAM_H
 #define WET1_TEAM_H
-#include "Player.h"
-#include "AVLTree.h"
-#include "LinkedList.h"
-
-#pragma once
-
+#include "Union_Find.h"
 
 
 
 class Team {
 public:
     int t_id;
-    LLNode<Player>* t_players;
+    UF_Node* t_players_root;
     int t_total_players;
-    int t_spirit;
-    int t_strength;
+    permutation_t t_spirit;
     int t_ability;
     int t_gk_counter;
     int t_points;
@@ -27,32 +17,13 @@ public:
     int t_games_played;
 
 
-
-
-
-//    AVLTree<Player, ConPId > t_players; // this one belong to him
-//    AVLTree<Player, ConPichichi > t_pichichi; // this one belong to him
-//    LLNode<Team>* p_twc_list_capable;
-//    int team_id;
-//    int t_total_players;
-//    int t_score;
-//    int t_points;
-//    int t_games_played;
-//    Player* t_pichichi_out;
-//    int t_gk_counter;
-//    bool t_is_capable;
-
-
-    Team(int t_id, LLNode<Player>* t_players, int t_total_players, int t_spirit, int
-        t_strength, int t_ability, int t_gk_counter,int t_points,bool t_can_play,
-        int t_games_played);
-    Team(int teamId);
+    Team(int teamId) : t_id(teamId), t_players_root(nullptr), t_total_players(0), t_ability(0), t_gk_counter(0), t_points(0),t_can_play(false),
+    t_games_played(0) { t_spirit = t_spirit.neutral(); }
     Team(const Team&) = default;
     Team& operator=(const Team& T) = default;
     ~Team() = default;
-
-
 };
+
 
 class ConTId {
 public:
@@ -69,6 +40,7 @@ public:
         return Comparison::EQUAL;
     }
 };
+
 
 class ConTAId {
 public:

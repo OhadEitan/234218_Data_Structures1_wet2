@@ -20,6 +20,7 @@ public:
     AVLNode* left;
     AVLNode* right;
     AVLNode(ptr_type* data_to_copy) : data(data_to_copy), height(0), left(nullptr), right(nullptr) {}
+    AVLNode() = default;
 };
 
 
@@ -81,7 +82,6 @@ private:
 
     // -- sub function for get_father: confirms if passed node to function is father
     bool check_if_father(AVLNode<ptr_type>* r, ptr_type* data);
-
 
     // -- sub function for build_from_array: constructs the tree from array
     AVLNode<ptr_type>* build_tree_from_array(ptr_type** array, int start, int end);
@@ -167,10 +167,11 @@ public:
 template <class ptr_type, class condition>
 void AVLTree<ptr_type, condition>::build_from_array(ptr_type **data_array, int size)
 {
-    if (size < 1 || data_array == nullptr || root != nullptr)
+    if (size < 1 || data_array == nullptr)
     {
         return;
     }
+    destructor(root);
     root = build_tree_from_array(data_array, 0, size-1);
     num_of_nodes = size;
 }
@@ -304,22 +305,26 @@ AVLNode<ptr_type>* AVLTree<ptr_type, condition>::balance_tree(AVLNode<ptr_type>*
     {
         if (get_bf(r->left) >= 0)
         {
-            return make_LL_rotation(r);
+            r = make_LL_rotation(r);
+            return r;
         }
         else
         {
-            return make_LR_rotation(r);
+            r = make_LR_rotation(r);
+            return r;
         }
     }
     if (bf == UNBALANCED_NEGATIVE_BF)
     {
         if (get_bf(r->right) <= 0)
         {
-            return make_RR_rotation(r);
+            r = make_RR_rotation(r);
+            return r;
         }
         else
         {
-            return make_RL_rotation(r);
+            r = make_RL_rotation(r);
+            return r;
         }
     }
     return r;

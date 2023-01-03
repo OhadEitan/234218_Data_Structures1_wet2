@@ -10,26 +10,76 @@
 // DO NOT erase or modify the signatures of the public methods.
 // DO NOT modify the preprocessors in this file.
 // DO NOT use the preprocessors in your other code files.
-// 
+//
 
 #ifndef WORLDCUP23A2_H_
 #define WORLDCUP23A2_H_
-# include "AVLTree.h"
-#include "RankAVL.h"
-#include "Player.h"
 #include "Team.h"
-#include "HashTable.h"
-#include "Union_Find.h"
-#include "LinkedList.h"
-#include "wet2util.h"
+
 
 class world_cup_t {
 private:
-    AVLTree<Team,ConTId> wc_teams;
-    RankAVL<Team,ConTAId> wc_teams_by_ability;
-    HashTable<Player*> wc_players;
-    UF<Player*> t_players;
-   // LinkedList<AVLTree<Player, ConPId>> wc_players_tree_to_delete;
+	AVLTree<Team, ConTId> wc_teams;
+    RankTree<Team, ConTAId> wc_teams_by_ability;
+    UF wc_players;
+
+    static const int WIN_POINTS = 3;
+    static const int TIE_POINTS = 3;
+    static const int MATCH_TIE = 0;
+    static const int TEAM1_WON_BY_ABILITY = 1;
+    static const int TEAM1_WON_BY_SPIRIT = 2;
+    static const int TEAM2_WON_BY_ABILITY = 3;
+    static const int TEAM2_WON_BY_SPIRIT = 4;
+
+    /** sub function for add_player
+     * returns true if input to add_player is of failure
+     * returns false if not
+     */
+    bool add_player_is_failure_input(int playerId, int teamId);
+
+    /** sub function for add_player
+     * if player is first - establishes team-players_root connectivity
+     * else - updates father of node as root
+     */
+    void update_player_connections(Player* new_player, Team* team);
+
+    /** sub function for add_player
+     * updates team when adding a new player
+     */
+    void update_team_with_player(Player* new_player, Team* team);
+
+    /** sub function for play_match
+     * returns true if input to play_match is invalid
+     * returns false if not
+     */
+    bool play_match_is_failure_input(int teamId1,int  teamId2);
+
+    /** sub function for play_match
+     * updates teams according to match results
+     */
+    void update_teams_after_match(Team*& winner, Team*& loser, bool is_tie);
+
+    /** sub function for play_match
+    * calculates result of match and returns corresponding return value
+    */
+    int calc_match_result(Team* team1, Team* team2);
+
+    /** sub function for buy_team
+    * returns true if input to buy_team is invalid
+     * returns false if not
+    */
+    bool buy_team_is_invalid_input(int teamId1,int  teamId2);
+
+    /** sub function for buy_team
+     *  makes union with 2 teams
+     */
+    void make_union(Team* bigger_team, Team* smaller_team, int buyer_teamId);
+
+    /** sub function for buy_team
+    *  updates teams fields after union is made
+    */
+    void update_buying_team(Team* bigger_team, Team* smaller_team, int buyer_teamId);
+
 public:
 	// <DO-NOT-MODIFY> {
 	
